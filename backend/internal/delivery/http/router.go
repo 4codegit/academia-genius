@@ -23,9 +23,7 @@ func NewRouter(services *service.Services, jwtSecret string) *gin.Engine {
 	scheduleHandler := handlers.NewScheduleHandler(services.Schedule)
 	userHandler := handlers.NewUserHandler(services.User)
 
-	// Публичные маршруты
-	api := r.Group("/api")
-	{
+	registerAPIRoutes := func(api *gin.RouterGroup) {
 		api.POST("/auth/register", authHandler.Register)
 		api.POST("/auth/login", authHandler.Login)
 		api.POST("/auth/forgot-password", authHandler.ForgotPassword)
@@ -39,7 +37,6 @@ func NewRouter(services *service.Services, jwtSecret string) *gin.Engine {
 		api.GET("/alumni", alumniHandler.GetAll)
 		api.GET("/schedule", scheduleHandler.List)
 
-		// Защищённые маршруты (требуют JWT)
 		protected := api.Group("/")
 		protected.Use(middleware.Auth(services.Auth))
 		{
@@ -48,6 +45,19 @@ func NewRouter(services *service.Services, jwtSecret string) *gin.Engine {
 			protected.POST("/auth/logout", authHandler.Logout)
 		}
 	}
+
+	// Публичные маршруты
+	api := r.Group("/api")
+	api.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok", "version": "api"})
+	})
+	registerAPIRoutes(api)
+
+	v1 := r.Group("/api/v1")
+	v1.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok", "version": "v1"})
+	})
+	registerAPIRoutes(v1)
 
 	return r
 }

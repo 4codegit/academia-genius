@@ -130,6 +130,9 @@ export DB_PORT=5432
 export DB_USER=academy_genius
 export DB_PASSWORD=academia_genius_123
 export DB_NAME=academy_genius_db
+export DB_SSLMODE=disable
+# Alternatively, set DATABASE_URL directly instead of individual DB_* vars.
+# export DATABASE_URL="postgres://academy_genius:academia_genius_123@localhost:5432/academy_genius_db?sslmode=disable"
 export JWT_SECRET=your-super-secret-key-change-in-production
 export PORT=8080
 
@@ -143,7 +146,7 @@ npm run dev
 ```
 
 **Frontend:** http://localhost:3000
-**Backend API:** http://localhost:8080/api/v1
+**Backend API:** http://localhost:8080/api or http://localhost:8080/api/v1
 
 ---
 
