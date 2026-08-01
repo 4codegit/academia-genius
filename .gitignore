@@ -8,20 +8,7 @@ Thumbs.db
 *.swp
 *.swo
 
-# === Backend (Go) ===
-backend/bin/
-backend/server
-backend/tmp/
-*.exe
-
-# === Frontend (Nuxt) ===
-frontend/node_modules/
-frontend/.nuxt/
-frontend/.output/
-frontend/.data/
-frontend/dist/
-
-# === Environment ===
+# === Env ===
 .env
 .env.local
 .env.*.local
